@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nett" Version="0.15.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="portaudio-sharp">
+      <HintPath>lib\portaudio-sharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

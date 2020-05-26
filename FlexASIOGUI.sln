@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexASIOGUI", "FlexASIOGUI.csproj", "{3379A106-E2A5-4B28-92D0-D4E37D4ABCCF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3379A106-E2A5-4B28-92D0-D4E37D4ABCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3379A106-E2A5-4B28-92D0-D4E37D4ABCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3379A106-E2A5-4B28-92D0-D4E37D4ABCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3379A106-E2A5-4B28-92D0-D4E37D4ABCCF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {539BEB5C-0112-411A-9369-271DE771B870}
+	EndGlobalSection
+EndGlobal

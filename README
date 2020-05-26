@@ -1,0 +1,3 @@
+portaudio2-sharp is a C# binding for portaudio v19.
+Note that the API is very different from v18 (which is why it is named as
+portaudio2).
