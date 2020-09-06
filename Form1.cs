@@ -21,13 +21,18 @@ namespace FlexASIOGUI
         private bool InitDone = false;
         private string TOMLPath;
         private FlexGUIConfig flexGUIConfig;
+        private System.Text.Encoding enc1252;
 
         public Form1()
         {
             InitializeComponent();
 
+            this.Text = "FlexASIO GUI v0.2";
+
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            enc1252 = Encoding.GetEncoding(1252);
 
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
             CultureInfo.DefaultThreadCurrentCulture = customCulture;
@@ -47,8 +52,6 @@ namespace FlexASIOGUI
 
             numericLatencyInput.Increment = 0.1m;
             numericLatencyOutput.Increment = 0.1m;
-
-            PortAudioInterop.Pa_Initialize();
 
             for (var i=0; i<Configuration.HostApiCount; i++)
             {
@@ -87,6 +90,13 @@ namespace FlexASIOGUI
             GenerateOutput();
         }
 
+        private string W1252fromUTF(string s)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(s);
+            byte[] output = Encoding.Convert(Encoding.UTF8, enc1252, bytes);
+            return Encoding.UTF8.GetString(output);
+        }
+
         private TreeNode[] GetDevicesForBackend(string Backend, bool Input)
         {
             List<TreeNode> treeNodes = new List<TreeNode>();
@@ -94,6 +104,7 @@ namespace FlexASIOGUI
             for (var i = 0; i < Configuration.DeviceCount; i++)
             {
                 var deviceInfo = Configuration.GetDeviceInfo(i);
+
                 var apiInfo = Configuration.GetHostApiInfo(deviceInfo.hostApi);
                 
                 if (apiInfo.name != Backend) 
@@ -103,14 +114,14 @@ namespace FlexASIOGUI
                 {
                     if (deviceInfo.maxInputChannels > 0)
                     {
-                        treeNodes.Add(new TreeNode(deviceInfo.name));
+                        treeNodes.Add(new TreeNode(W1252fromUTF(deviceInfo.name)));
                     }
                 }
                 else
                 {
                     if (deviceInfo.maxOutputChannels > 0)
                     {
-                        treeNodes.Add(new TreeNode(deviceInfo.name));
+                        treeNodes.Add(new TreeNode(W1252fromUTF(deviceInfo.name)));
                     }
                 }
             }
@@ -144,46 +155,6 @@ namespace FlexASIOGUI
         private void GenerateOutput()
         {
             if (!InitDone) return;
-
-            // Old manual way of writing the config file...
-
-            //StringBuilder config = new StringBuilder();
-            //var backend = comboBackend.SelectedItem.ToString();
-            //var input = treeDevicesInput?.SelectedNode?.Text;
-            //var output = treeDevicesOutput?.SelectedNode?.Text;
-            //var inputLatency = numericLatencyInput.Value.ToString();
-            //var outputLatency = numericLatencyOutput.Value.ToString();
-
-            //config.AppendLine($"# Host API backend");
-            //config.AppendLine($"backend = \"{comboBackend.SelectedItem?.ToString()}\"");
-            //config.AppendLine($"bufferSizeSamples = {numericBufferSize?.Value.ToString()}");
-            //config.AppendLine("");
-            //config.AppendLine($"[input]");
-            //if (input == "(None)")
-            //    config.AppendLine($"device = \"\"");
-            //else
-            //    config.AppendLine($"device = \"{treeDevicesInput?.SelectedNode?.Text}\"");
-            //if (numericChannelsInput.Value > 0)
-            //{
-            //    config.AppendLine($"channels = {numericChannelsInput?.Value.ToString()}");
-            //}
-            //config.AppendLine($"suggestedLatencySeconds = {numericLatencyInput?.Value.ToString("0.0", new CultureInfo("en-US"))}");
-            //config.AppendLine($"wasapiExclusiveMode = {wasapiExclusiveInput?.Checked.ToString().ToLower()}");
-            //config.AppendLine($"wasapiAutoConvert = {wasapiAutoConvertInput?.Checked.ToString().ToLower()}");
-            //config.AppendLine("");
-            //config.AppendLine($"[output]");
-            //if (output == "(None)")
-            //    config.AppendLine($"device = \"\"");
-            //else
-            //    config.AppendLine($"device = \"{treeDevicesOutput?.SelectedNode?.Text}\"");
-            //if (numericChannelsOutput.Value > 0)
-            //{
-            //    config.AppendLine($"channels = {numericChannelsOutput?.Value.ToString()}");
-            //}
-            //config.AppendLine($"suggestedLatencySeconds = {numericLatencyOutput?.Value.ToString("0.0", new CultureInfo("en-US"))}");
-            //config.AppendLine($"wasapiExclusiveMode = {wasapiExclusiveOutput?.Checked.ToString().ToLower()}");
-            //config.AppendLine($"wasapiAutoConvert = {wasapiAutoConvertOutput?.Checked.ToString().ToLower()}");
-            //configOutput.Text = config.ToString();
 
             configOutput.Clear();
             configOutput.Text = Toml.WriteString(flexGUIConfig);

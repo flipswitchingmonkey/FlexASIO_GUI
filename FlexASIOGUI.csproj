@@ -4,15 +4,17 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Nett" Version="0.15.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="portaudio-sharp">
-      <HintPath>lib\portaudio-sharp.dll</HintPath>
+      <HintPath>lib\Debug\portaudio-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 
