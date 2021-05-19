@@ -22,12 +22,15 @@ namespace FlexASIOGUI
         private string TOMLPath;
         private FlexGUIConfig flexGUIConfig;
         private System.Text.Encoding enc1252;
+        private string flexasioGuiVersion = "0.3";
+        private string flexasioVersion = "1.7a";
+        private string tomlName = "FlexASIO.toml";
 
         public Form1()
         {
             InitializeComponent();
 
-            this.Text = "FlexASIO GUI v0.2";
+            this.Text = $"FlexASIO GUI v{flexasioGuiVersion}";
 
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
@@ -38,7 +41,7 @@ namespace FlexASIOGUI
             CultureInfo.DefaultThreadCurrentCulture = customCulture;
             CultureInfo.DefaultThreadCurrentUICulture = customCulture;
 
-            TOMLPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\FlexASIO.toml";
+            TOMLPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\{tomlName}";
 
             flexGUIConfig = new FlexGUIConfig();
             if (File.Exists(TOMLPath))
@@ -86,7 +89,7 @@ namespace FlexASIOGUI
             wasapiAutoConvertOutput.Checked = flexGUIConfig.output.wasapiAutoConvert;
 
             InitDone = true;
-            SetStatusMessage($"FlexASIO GUI for FlexASIO 0.15 started ({Configuration.VersionString})");
+            SetStatusMessage($"FlexASIO GUI for FlexASIO {flexasioVersion} started ({Configuration.VersionString})");
             GenerateOutput();
         }
 
@@ -147,6 +150,7 @@ namespace FlexASIOGUI
                     treeDevicesOutput.Nodes.Clear();
                     treeDevicesOutput.Nodes.AddRange(GetDevicesForBackend(selectedBackend, false));
                 }
+                if (selectedBackend == "(None)") selectedBackend = "";
                 flexGUIConfig.backend = selectedBackend;
                 GenerateOutput();
             }
@@ -183,7 +187,7 @@ namespace FlexASIOGUI
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            saveFileDialog.FileName = "FlexASIO.toml";
+            saveFileDialog.FileName = tomlName;
             var ret = saveFileDialog.ShowDialog();
             if (ret == DialogResult.OK)
             {
@@ -233,7 +237,7 @@ namespace FlexASIOGUI
             if (o.SelectedNode != null)
             {
                 o.SelectedNode.Checked = true;
-                flexGUIConfig.input.device = o.SelectedNode.Text;
+                flexGUIConfig.input.device = o.SelectedNode.Text == "(None)" ? "" : o.SelectedNode.Text;
                 GenerateOutput();
             }
         }
@@ -245,7 +249,7 @@ namespace FlexASIOGUI
             if (o.SelectedNode != null)
             {
                 o.SelectedNode.Checked = true;
-                flexGUIConfig.output.device = o.SelectedNode.Text;
+                flexGUIConfig.output.device = o.SelectedNode.Text == "(None)" ? "" : o.SelectedNode.Text;
                 GenerateOutput();
             }
         }
