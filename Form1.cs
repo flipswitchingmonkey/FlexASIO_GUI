@@ -22,12 +22,15 @@ namespace FlexASIOGUI
         private string TOMLPath;
         private FlexGUIConfig flexGUIConfig;
         private System.Text.Encoding enc1252;
+        private string flexasioGuiVersion = "0.3";
+        private string flexasioVersion = "1.7a";
+        private string tomlName = "FlexASIO.toml";
 
         public Form1()
         {
             InitializeComponent();
 
-            this.Text = "FlexASIO GUI v0.2";
+            this.Text = $"FlexASIO GUI v{flexasioGuiVersion}";
 
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
@@ -38,7 +41,7 @@ namespace FlexASIOGUI
             CultureInfo.DefaultThreadCurrentCulture = customCulture;
             CultureInfo.DefaultThreadCurrentUICulture = customCulture;
 
-            TOMLPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\FlexASIO.toml";
+            TOMLPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\{tomlName}";
 
             flexGUIConfig = new FlexGUIConfig();
             if (File.Exists(TOMLPath))
@@ -47,7 +50,6 @@ namespace FlexASIOGUI
             }
 
             numericBufferSize.Maximum = 8192;
-            numericBufferSize.Value = 256;
             numericBufferSize.Increment = 16;
 
             numericLatencyInput.Increment = 0.1m;
@@ -67,26 +69,39 @@ namespace FlexASIOGUI
                 comboBackend.SelectedIndex = 0;
             }
 
-
-            numericBufferSize.Value = (Int64)flexGUIConfig.bufferSizeSamples;
+            checkBoxSetBufferSize.Checked = numericBufferSize.Enabled = flexGUIConfig.bufferSizeSamples != null;
+            if (flexGUIConfig.bufferSizeSamples != null)
+                numericBufferSize.Value = (Int64)flexGUIConfig.bufferSizeSamples;
             
             treeDevicesInput.SelectedNode = treeDevicesInput.Nodes.Cast<TreeNode>().FirstOrDefault(x => x.Text == (flexGUIConfig.input.device == "" ? "(None)" : flexGUIConfig.input.device));
             treeDevicesOutput.SelectedNode = treeDevicesOutput.Nodes.Cast<TreeNode>().FirstOrDefault(x => x.Text == (flexGUIConfig.output.device == "" ? "(None)" : flexGUIConfig.output.device));
-            
-            numericLatencyInput.Value = (decimal)(double)flexGUIConfig.input.suggestedLatencySeconds;
-            numericLatencyOutput.Value = (decimal)(double)flexGUIConfig.output.suggestedLatencySeconds;
+
+            checkBoxSetInputLatency.Checked = numericLatencyInput.Enabled = flexGUIConfig.input.suggestedLatencySeconds != null;
+            checkBoxSetOutputLatency.Checked = numericLatencyOutput.Enabled = flexGUIConfig.output.suggestedLatencySeconds != null;
+
+            if (flexGUIConfig.input.suggestedLatencySeconds != null)
+                numericLatencyInput.Value = (decimal)(double)flexGUIConfig.input.suggestedLatencySeconds;
+            if (flexGUIConfig.output.suggestedLatencySeconds != null)
+                numericLatencyOutput.Value = (decimal)(double)flexGUIConfig.output.suggestedLatencySeconds;
 
             numericChannelsInput.Value = (decimal)(flexGUIConfig.input.channels ?? 0);
             numericChannelsOutput.Value = (decimal)(flexGUIConfig.output.channels ?? 0);
 
-            wasapiExclusiveInput.Checked = flexGUIConfig.input.wasapiExclusiveMode;
-            wasapiExclusiveOutput.Checked = flexGUIConfig.output.wasapiExclusiveMode;
+            checkBoxWasapiInputSet.Checked = flexGUIConfig.input.wasapiExclusiveMode != null || flexGUIConfig.input.wasapiAutoConvert != null;
+            checkBoxWasapiOutputSet.Checked = flexGUIConfig.output.wasapiExclusiveMode != null || flexGUIConfig.output.wasapiAutoConvert != null;
 
-            wasapiAutoConvertInput.Checked = flexGUIConfig.input.wasapiAutoConvert;
-            wasapiAutoConvertOutput.Checked = flexGUIConfig.output.wasapiAutoConvert;
+            wasapiExclusiveInput.Enabled = flexGUIConfig.input.wasapiExclusiveMode != null;
+            wasapiExclusiveInput.Checked = flexGUIConfig.input.wasapiExclusiveMode ?? false;
+            wasapiExclusiveOutput.Enabled = flexGUIConfig.output.wasapiExclusiveMode != null;
+            wasapiExclusiveOutput.Checked = flexGUIConfig.output.wasapiExclusiveMode ?? false;
+
+            wasapiAutoConvertInput.Enabled = flexGUIConfig.input.wasapiAutoConvert != null;
+            wasapiAutoConvertInput.Checked = flexGUIConfig.input.wasapiAutoConvert ?? false;
+            wasapiAutoConvertOutput.Enabled = flexGUIConfig.output.wasapiAutoConvert != null;
+            wasapiAutoConvertOutput.Checked = flexGUIConfig.output.wasapiAutoConvert ?? false;
 
             InitDone = true;
-            SetStatusMessage($"FlexASIO GUI for FlexASIO 0.15 started ({Configuration.VersionString})");
+            SetStatusMessage($"FlexASIO GUI for FlexASIO {flexasioVersion} started ({Configuration.VersionString})");
             GenerateOutput();
         }
 
@@ -147,6 +162,7 @@ namespace FlexASIOGUI
                     treeDevicesOutput.Nodes.Clear();
                     treeDevicesOutput.Nodes.AddRange(GetDevicesForBackend(selectedBackend, false));
                 }
+                if (selectedBackend == "(None)") selectedBackend = "";
                 flexGUIConfig.backend = selectedBackend;
                 GenerateOutput();
             }
@@ -155,6 +171,20 @@ namespace FlexASIOGUI
         private void GenerateOutput()
         {
             if (!InitDone) return;
+
+            if (!checkBoxSetBufferSize.Checked) flexGUIConfig.bufferSizeSamples = null;
+            if (!checkBoxSetInputLatency.Checked) flexGUIConfig.input.suggestedLatencySeconds = null;
+            if (!checkBoxSetOutputLatency.Checked) flexGUIConfig.output.suggestedLatencySeconds = null;
+            if (!checkBoxWasapiInputSet.Checked)
+            {
+                flexGUIConfig.input.wasapiAutoConvert = null;
+                flexGUIConfig.input.wasapiExclusiveMode = null;
+            }
+            if (!checkBoxWasapiOutputSet.Checked)
+            {
+                flexGUIConfig.output.wasapiAutoConvert = null;
+                flexGUIConfig.output.wasapiExclusiveMode = null;
+            }
 
             configOutput.Clear();
             configOutput.Text = Toml.WriteString(flexGUIConfig);
@@ -183,7 +213,7 @@ namespace FlexASIOGUI
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            saveFileDialog.FileName = "FlexASIO.toml";
+            saveFileDialog.FileName = tomlName;
             var ret = saveFileDialog.ShowDialog();
             if (ret == DialogResult.OK)
             {
@@ -233,7 +263,7 @@ namespace FlexASIOGUI
             if (o.SelectedNode != null)
             {
                 o.SelectedNode.Checked = true;
-                flexGUIConfig.input.device = o.SelectedNode.Text;
+                flexGUIConfig.input.device = o.SelectedNode.Text == "(None)" ? "" : o.SelectedNode.Text;
                 GenerateOutput();
             }
         }
@@ -245,7 +275,7 @@ namespace FlexASIOGUI
             if (o.SelectedNode != null)
             {
                 o.SelectedNode.Checked = true;
-                flexGUIConfig.output.device = o.SelectedNode.Text;
+                flexGUIConfig.output.device = o.SelectedNode.Text == "(None)" ? "" : o.SelectedNode.Text;
                 GenerateOutput();
             }
         }
@@ -271,16 +301,22 @@ namespace FlexASIOGUI
         {
             var o = sender as NumericUpDown;
             if (o == null) return;
-            flexGUIConfig.output.suggestedLatencySeconds = (o.Value > 0 ? (double)o.Value : 0);
-            GenerateOutput();
+            if (checkBoxSetOutputLatency.Enabled)
+            {
+                flexGUIConfig.output.suggestedLatencySeconds = (o.Value > 0 ? (double)o.Value : 0);
+                GenerateOutput();
+            }
         }
 
         private void numericLatencyInput_ValueChanged(object sender, EventArgs e)
         {
             var o = sender as NumericUpDown;
             if (o == null) return;
-            flexGUIConfig.input.suggestedLatencySeconds = (o.Value > 0 ? (double)o.Value : 0);
-            GenerateOutput();
+            if (checkBoxSetInputLatency.Enabled)
+            {
+                flexGUIConfig.input.suggestedLatencySeconds = (o.Value > 0 ? (double)o.Value : 0);
+                GenerateOutput();
+            }
         }
 
         private void wasapiAutoConvertOutput_CheckedChanged(object sender, EventArgs e)
@@ -330,6 +366,93 @@ namespace FlexASIOGUI
         private void treeDevicesInput_AfterCheck(object sender, TreeViewEventArgs e)
         {
 
+        }
+
+        private void checkBoxSetInputLatency_CheckedChanged(object sender, EventArgs e)
+        {
+            var o = sender as CheckBox;
+            if (o == null) return;
+            numericLatencyInput.Enabled = o.Checked;
+            if (o.Checked == false)
+            {
+                flexGUIConfig.input.suggestedLatencySeconds = null;
+            }
+            else
+            {
+                numericLatencyInput_ValueChanged(numericLatencyInput, null);
+            }
+            GenerateOutput();
+        }
+
+        private void checkBoxSetOutputLatency_CheckedChanged(object sender, EventArgs e)
+        {
+            var o = sender as CheckBox;
+            if (o == null) return;
+            numericLatencyOutput.Enabled = o.Checked;
+            if (o.Checked == false) {
+                flexGUIConfig.output.suggestedLatencySeconds = null;
+            }
+            else
+            {
+                numericLatencyOutput_ValueChanged(numericLatencyOutput, null);
+            }
+            GenerateOutput();
+        }
+       
+
+        private void checkBoxSetBufferSize_CheckedChanged(object sender, EventArgs e)
+        {
+            var o = sender as CheckBox;
+            if (o == null) return;
+            numericBufferSize.Enabled = o.Checked;
+            if (o.Checked == false) { 
+                flexGUIConfig.bufferSizeSamples = null; 
+            }
+            else
+            {
+                numericBufferSize_ValueChanged(numericBufferSize, null);
+            }
+            GenerateOutput();
+        }
+
+        private void checkBoxWasapiInputSet_CheckedChanged(object sender, EventArgs e)
+        {
+            var o = sender as CheckBox;
+            if (o == null) return;
+            wasapiAutoConvertInput.Enabled = o.Checked;
+            wasapiExclusiveInput.Enabled = o.Checked;
+
+            if (o.Checked == false)
+            {
+                flexGUIConfig.input.wasapiAutoConvert = null;
+                flexGUIConfig.input.wasapiExclusiveMode = null;
+            }
+            else
+            {
+                flexGUIConfig.input.wasapiAutoConvert = wasapiAutoConvertInput.Checked;
+                flexGUIConfig.input.wasapiExclusiveMode = wasapiExclusiveInput.Checked;
+            }
+            GenerateOutput();
+        }
+
+        private void checkBoxWasapOutputSet_CheckedChanged(object sender, EventArgs e)
+        {
+            var o = sender as CheckBox;
+            if (o == null) return;
+            wasapiAutoConvertOutput.Enabled = o.Checked;
+            wasapiExclusiveOutput.Enabled = o.Checked;
+
+            if (o.Checked == false)
+            {
+                flexGUIConfig.output.wasapiAutoConvert = null;
+                flexGUIConfig.output.wasapiExclusiveMode = null;
+            }
+            else
+            {
+                flexGUIConfig.output.wasapiAutoConvert = wasapiAutoConvertOutput.Checked;
+                flexGUIConfig.output.wasapiExclusiveMode = wasapiExclusiveOutput.Checked;
+            }
+            GenerateOutput();
         }
     }
 }
