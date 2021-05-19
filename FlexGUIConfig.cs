@@ -7,7 +7,7 @@ namespace FlexASIOGUI
     public class FlexGUIConfig
     {
         public string backend { get; set; } = "Windows WASAPI";
-        public int bufferSizeSamples { get; set; } = 256;
+        public int? bufferSizeSamples { get; set; } = null;
         public FlexGUIConfigDeviceSection input { get; set; }
         public FlexGUIConfigDeviceSection output { get; set; }
 
@@ -21,9 +21,9 @@ namespace FlexASIOGUI
     public class FlexGUIConfigDeviceSection
     {
         public string device { get; set; }
-        public double suggestedLatencySeconds { get; set; }
-        public bool wasapiExclusiveMode { get; set; } = false;
-        public bool wasapiAutoConvert { get; set; } = true;
+        public double? suggestedLatencySeconds { get; set; } = null;
+        public bool? wasapiExclusiveMode { get; set; } = null;
+        public bool? wasapiAutoConvert { get; set; } = null;
         public int? channels { get; set; }
     }
 }

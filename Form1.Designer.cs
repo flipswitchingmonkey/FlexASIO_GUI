@@ -36,17 +36,23 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btSaveToProfile = new System.Windows.Forms.Button();
             this.comboBackend = new System.Windows.Forms.ComboBox();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBoxSetOutputLatency = new System.Windows.Forms.CheckBox();
             this.numericLatencyOutput = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBoxWasapiInputSet = new System.Windows.Forms.CheckBox();
             this.wasapiExclusiveInput = new System.Windows.Forms.CheckBox();
             this.wasapiAutoConvertInput = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBoxWasapiOutputSet = new System.Windows.Forms.CheckBox();
             this.wasapiExclusiveOutput = new System.Windows.Forms.CheckBox();
             this.wasapiAutoConvertOutput = new System.Windows.Forms.CheckBox();
             this.configOutput = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBoxSetInputLatency = new System.Windows.Forms.CheckBox();
             this.numericLatencyInput = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -57,11 +63,14 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
+            this.checkBoxSetBufferSize = new System.Windows.Forms.CheckBox();
             this.numericBufferSize = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericLatencyOutput)).BeginInit();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
+            this.flowLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericLatencyInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericChannelsInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericChannelsOutput)).BeginInit();
@@ -113,14 +122,14 @@
             this.tableLayoutPanel1.Controls.Add(this.btSaveToProfile, 3, 4);
             this.tableLayoutPanel1.Controls.Add(this.treeDevicesInput, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.comboBackend, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.numericLatencyOutput, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel4, 2, 3);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel3, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.configOutput, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label2, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.numericLatencyInput, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel5, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label9, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 5);
@@ -139,6 +148,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(875, 534);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
@@ -196,13 +206,34 @@
             this.comboBackend.TabIndex = 1;
             this.comboBackend.SelectedIndexChanged += new System.EventHandler(this.comboBackend_SelectedIndexChanged);
             // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.Controls.Add(this.checkBoxSetOutputLatency);
+            this.flowLayoutPanel4.Controls.Add(this.numericLatencyOutput);
+            this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(335, 417);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(236, 24);
+            this.flowLayoutPanel4.TabIndex = 11;
+            // 
+            // checkBoxSetOutputLatency
+            // 
+            this.checkBoxSetOutputLatency.AutoSize = true;
+            this.checkBoxSetOutputLatency.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxSetOutputLatency.Name = "checkBoxSetOutputLatency";
+            this.checkBoxSetOutputLatency.Size = new System.Drawing.Size(127, 19);
+            this.checkBoxSetOutputLatency.TabIndex = 19;
+            this.checkBoxSetOutputLatency.Text = "Set Output Latency";
+            this.checkBoxSetOutputLatency.UseVisualStyleBackColor = true;
+            this.checkBoxSetOutputLatency.CheckedChanged += new System.EventHandler(this.checkBoxSetOutputLatency_CheckedChanged);
+            // 
             // numericLatencyOutput
             // 
             this.numericLatencyOutput.DecimalPlaces = 1;
             this.numericLatencyOutput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericLatencyOutput.Location = new System.Drawing.Point(335, 417);
+            this.numericLatencyOutput.Location = new System.Drawing.Point(136, 3);
             this.numericLatencyOutput.Name = "numericLatencyOutput";
-            this.numericLatencyOutput.Size = new System.Drawing.Size(236, 23);
+            this.numericLatencyOutput.Size = new System.Drawing.Size(90, 23);
             this.numericLatencyOutput.TabIndex = 3;
             this.numericLatencyOutput.ValueChanged += new System.EventHandler(this.numericLatencyOutput_ValueChanged);
             // 
@@ -218,6 +249,7 @@
             // 
             // flowLayoutPanel2
             // 
+            this.flowLayoutPanel2.Controls.Add(this.checkBoxWasapiInputSet);
             this.flowLayoutPanel2.Controls.Add(this.wasapiExclusiveInput);
             this.flowLayoutPanel2.Controls.Add(this.wasapiAutoConvertInput);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -226,10 +258,21 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(236, 24);
             this.flowLayoutPanel2.TabIndex = 11;
             // 
+            // checkBoxWasapiInputSet
+            // 
+            this.checkBoxWasapiInputSet.AutoSize = true;
+            this.checkBoxWasapiInputSet.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxWasapiInputSet.Name = "checkBoxWasapiInputSet";
+            this.checkBoxWasapiInputSet.Size = new System.Drawing.Size(45, 19);
+            this.checkBoxWasapiInputSet.TabIndex = 9;
+            this.checkBoxWasapiInputSet.Text = "Set:";
+            this.checkBoxWasapiInputSet.UseVisualStyleBackColor = true;
+            this.checkBoxWasapiInputSet.CheckedChanged += new System.EventHandler(this.checkBoxWasapiInputSet_CheckedChanged);
+            // 
             // wasapiExclusiveInput
             // 
             this.wasapiExclusiveInput.AutoSize = true;
-            this.wasapiExclusiveInput.Location = new System.Drawing.Point(3, 3);
+            this.wasapiExclusiveInput.Location = new System.Drawing.Point(54, 3);
             this.wasapiExclusiveInput.Name = "wasapiExclusiveInput";
             this.wasapiExclusiveInput.Size = new System.Drawing.Size(74, 19);
             this.wasapiExclusiveInput.TabIndex = 7;
@@ -242,7 +285,7 @@
             this.wasapiAutoConvertInput.AutoSize = true;
             this.wasapiAutoConvertInput.Checked = true;
             this.wasapiAutoConvertInput.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.wasapiAutoConvertInput.Location = new System.Drawing.Point(83, 3);
+            this.wasapiAutoConvertInput.Location = new System.Drawing.Point(134, 3);
             this.wasapiAutoConvertInput.Name = "wasapiAutoConvertInput";
             this.wasapiAutoConvertInput.Size = new System.Drawing.Size(94, 19);
             this.wasapiAutoConvertInput.TabIndex = 8;
@@ -252,6 +295,7 @@
             // 
             // flowLayoutPanel3
             // 
+            this.flowLayoutPanel3.Controls.Add(this.checkBoxWasapiOutputSet);
             this.flowLayoutPanel3.Controls.Add(this.wasapiExclusiveOutput);
             this.flowLayoutPanel3.Controls.Add(this.wasapiAutoConvertOutput);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -260,10 +304,21 @@
             this.flowLayoutPanel3.Size = new System.Drawing.Size(236, 24);
             this.flowLayoutPanel3.TabIndex = 12;
             // 
+            // checkBoxWasapiOutputSet
+            // 
+            this.checkBoxWasapiOutputSet.AutoSize = true;
+            this.checkBoxWasapiOutputSet.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxWasapiOutputSet.Name = "checkBoxWasapiOutputSet";
+            this.checkBoxWasapiOutputSet.Size = new System.Drawing.Size(45, 19);
+            this.checkBoxWasapiOutputSet.TabIndex = 10;
+            this.checkBoxWasapiOutputSet.Text = "Set:";
+            this.checkBoxWasapiOutputSet.UseVisualStyleBackColor = true;
+            this.checkBoxWasapiOutputSet.CheckedChanged += new System.EventHandler(this.checkBoxWasapOutputSet_CheckedChanged);
+            // 
             // wasapiExclusiveOutput
             // 
             this.wasapiExclusiveOutput.AutoSize = true;
-            this.wasapiExclusiveOutput.Location = new System.Drawing.Point(3, 3);
+            this.wasapiExclusiveOutput.Location = new System.Drawing.Point(54, 3);
             this.wasapiExclusiveOutput.Name = "wasapiExclusiveOutput";
             this.wasapiExclusiveOutput.Size = new System.Drawing.Size(74, 19);
             this.wasapiExclusiveOutput.TabIndex = 8;
@@ -276,7 +331,7 @@
             this.wasapiAutoConvertOutput.AutoSize = true;
             this.wasapiAutoConvertOutput.Checked = true;
             this.wasapiAutoConvertOutput.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.wasapiAutoConvertOutput.Location = new System.Drawing.Point(83, 3);
+            this.wasapiAutoConvertOutput.Location = new System.Drawing.Point(134, 3);
             this.wasapiAutoConvertOutput.Name = "wasapiAutoConvertOutput";
             this.wasapiAutoConvertOutput.Size = new System.Drawing.Size(94, 19);
             this.wasapiAutoConvertOutput.TabIndex = 9;
@@ -314,13 +369,34 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Output Device";
             // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.Controls.Add(this.checkBoxSetInputLatency);
+            this.flowLayoutPanel5.Controls.Add(this.numericLatencyInput);
+            this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(93, 417);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(236, 24);
+            this.flowLayoutPanel5.TabIndex = 11;
+            // 
+            // checkBoxSetInputLatency
+            // 
+            this.checkBoxSetInputLatency.AutoSize = true;
+            this.checkBoxSetInputLatency.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxSetInputLatency.Name = "checkBoxSetInputLatency";
+            this.checkBoxSetInputLatency.Size = new System.Drawing.Size(117, 19);
+            this.checkBoxSetInputLatency.TabIndex = 20;
+            this.checkBoxSetInputLatency.Text = "Set Input Latency";
+            this.checkBoxSetInputLatency.UseVisualStyleBackColor = true;
+            this.checkBoxSetInputLatency.CheckedChanged += new System.EventHandler(this.checkBoxSetInputLatency_CheckedChanged);
+            // 
             // numericLatencyInput
             // 
             this.numericLatencyInput.DecimalPlaces = 1;
             this.numericLatencyInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericLatencyInput.Location = new System.Drawing.Point(93, 417);
+            this.numericLatencyInput.Location = new System.Drawing.Point(126, 3);
             this.numericLatencyInput.Name = "numericLatencyInput";
-            this.numericLatencyInput.Size = new System.Drawing.Size(236, 23);
+            this.numericLatencyInput.Size = new System.Drawing.Size(90, 23);
             this.numericLatencyInput.TabIndex = 3;
             this.numericLatencyInput.ValueChanged += new System.EventHandler(this.numericLatencyInput_ValueChanged);
             // 
@@ -393,6 +469,7 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.label6);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxSetBufferSize);
             this.flowLayoutPanel1.Controls.Add(this.numericBufferSize);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(335, 3);
@@ -404,20 +481,30 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 3);
+            this.label6.Location = new System.Drawing.Point(3, 6);
             this.label6.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(62, 15);
+            this.label6.Size = new System.Drawing.Size(0, 15);
             this.label6.TabIndex = 6;
-            this.label6.Text = "Buffer Size";
+            // 
+            // checkBoxSetBufferSize
+            // 
+            this.checkBoxSetBufferSize.AutoSize = true;
+            this.checkBoxSetBufferSize.Location = new System.Drawing.Point(9, 3);
+            this.checkBoxSetBufferSize.Name = "checkBoxSetBufferSize";
+            this.checkBoxSetBufferSize.Size = new System.Drawing.Size(100, 19);
+            this.checkBoxSetBufferSize.TabIndex = 7;
+            this.checkBoxSetBufferSize.Text = "Set Buffer Size";
+            this.checkBoxSetBufferSize.UseVisualStyleBackColor = true;
+            this.checkBoxSetBufferSize.CheckedChanged += new System.EventHandler(this.checkBoxSetBufferSize_CheckedChanged);
             // 
             // numericBufferSize
             // 
             this.numericBufferSize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericBufferSize.Location = new System.Drawing.Point(71, 0);
+            this.numericBufferSize.Location = new System.Drawing.Point(115, 0);
             this.numericBufferSize.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.numericBufferSize.Name = "numericBufferSize";
-            this.numericBufferSize.Size = new System.Drawing.Size(120, 23);
+            this.numericBufferSize.Size = new System.Drawing.Size(90, 23);
             this.numericBufferSize.TabIndex = 5;
             this.numericBufferSize.ValueChanged += new System.EventHandler(this.numericBufferSize_ValueChanged);
             // 
@@ -432,11 +519,15 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericLatencyOutput)).EndInit();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
+            this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericLatencyInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericChannelsInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericChannelsOutput)).EndInit();
@@ -471,6 +562,8 @@
         private System.Windows.Forms.Button btSaveToProfile;
         private System.Windows.Forms.Button btSaveAs;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
         private System.Windows.Forms.CheckBox wasapiAutoConvertInput;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.CheckBox wasapiAutoConvertOutput;
@@ -481,6 +574,11 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.CheckBox checkBoxSetOutputLatency;
+        private System.Windows.Forms.CheckBox checkBoxSetInputLatency;
+        private System.Windows.Forms.CheckBox checkBoxSetBufferSize;
+        private System.Windows.Forms.CheckBox checkBoxWasapiInputSet;
+        private System.Windows.Forms.CheckBox checkBoxWasapiOutputSet;
     }
 }
 
