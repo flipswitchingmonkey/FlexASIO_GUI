@@ -4,4 +4,9 @@ It should pick up your existing $Usersprofile/FlexASIO.toml file and read the ba
 
 Disclaimer: this was written in one late night, so expect 4am code quality ;)
 
-![image](https://user-images.githubusercontent.com/6930367/82940600-61ebac80-9f95-11ea-9e93-a9e3ae9bf2ae.png)
+v0.3 adds a registry key with the install path to HKEY_LOCAL_MACHINE\SOFTWARE\Fabrikat\FlexASIOGUI\Install\Installpath
+
+It also makes most settings optional so that default settings are not overwritten.
+
+![image](https://user-images.githubusercontent.com/6930367/118895016-a4746a80-b905-11eb-806c-7fd3fee4fcd1.png)
+
