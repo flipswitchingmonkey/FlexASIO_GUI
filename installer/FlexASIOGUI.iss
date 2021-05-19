@@ -1,5 +1,5 @@
 #define MyAppName "FlexASIO GUI"
-#define MyAppVersion "0.2"
+#define MyAppVersion "0.3"
 #define MyAppPublisher "https://github.com/flipswitchingmonkey/FlexASIO_GUI"
 #define MyAppURL ""
 #define MyAppExeName "FlexASIOGUI.exe"
@@ -38,3 +38,8 @@ Source: "..\bin\x64\Release\netcoreapp3.1\*"; DestDir: "{app}"; Flags: ignorever
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 ;Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+
+[Registry]
+Root: HKLM64; Subkey: "Software\Fabrikat"; Flags: uninsdeletekeyifempty
+Root: HKLM64; Subkey: "Software\Fabrikat\FlexASIOGUI"; Flags: uninsdeletekey
+Root: HKLM64; Subkey: "Software\Fabrikat\FlexASIOGUI\Install"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"

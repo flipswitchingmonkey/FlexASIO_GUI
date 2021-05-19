@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationIcon>installer\flexasiogui.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
