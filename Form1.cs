@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Globalization;
 using Nett;
+using System.Runtime.InteropServices;
 
 namespace FlexASIOGUI
 {
@@ -22,14 +23,18 @@ namespace FlexASIOGUI
         private string TOMLPath;
         private FlexGUIConfig flexGUIConfig;
         private System.Text.Encoding enc1252;
-        private string flexasioGuiVersion = "0.3";
-        private string flexasioVersion = "1.7a";
+        private string flexasioGuiVersion = "0.31";
+        private string flexasioVersion = "1.8";
         private string tomlName = "FlexASIO.toml";
+        private string docUrl = "https://github.com/dechamps/FlexASIO/blob/master/CONFIGURATION.md";
+
+        [DllImport(@"C:\Program Files\FlexASIO\x64\FlexASIO.dll")]
+        public static extern int Initialize(string PathName, bool TestMode);
 
         public Form1()
         {
             InitializeComponent();
-
+            
             this.Text = $"FlexASIO GUI v{flexasioGuiVersion}";
 
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -69,9 +74,9 @@ namespace FlexASIOGUI
                 comboBackend.SelectedIndex = 0;
             }
 
-            checkBoxSetBufferSize.Checked = numericBufferSize.Enabled = flexGUIConfig.bufferSizeSamples != null;
             if (flexGUIConfig.bufferSizeSamples != null)
                 numericBufferSize.Value = (Int64)flexGUIConfig.bufferSizeSamples;
+            checkBoxSetBufferSize.Checked = numericBufferSize.Enabled = flexGUIConfig.bufferSizeSamples != null;
             
             treeDevicesInput.SelectedNode = treeDevicesInput.Nodes.Cast<TreeNode>().FirstOrDefault(x => x.Text == (flexGUIConfig.input.device == "" ? "(None)" : flexGUIConfig.input.device));
             treeDevicesOutput.SelectedNode = treeDevicesOutput.Nodes.Cast<TreeNode>().FirstOrDefault(x => x.Text == (flexGUIConfig.output.device == "" ? "(None)" : flexGUIConfig.output.device));
@@ -154,17 +159,40 @@ namespace FlexASIOGUI
             if (o != null)
             {
                 var selectedBackend = o.SelectedItem as string;
-                if (selectedBackend != null)
-                {
-                    treeDevicesInput.Nodes.Clear();
-                    treeDevicesInput.Nodes.AddRange(GetDevicesForBackend(selectedBackend, true));
-
-                    treeDevicesOutput.Nodes.Clear();
-                    treeDevicesOutput.Nodes.AddRange(GetDevicesForBackend(selectedBackend, false));
-                }
+                RefreshDevices(selectedBackend);
                 if (selectedBackend == "(None)") selectedBackend = "";
                 flexGUIConfig.backend = selectedBackend;
                 GenerateOutput();
+            }
+        }
+
+        private void RefreshDevices(string selectedBackend)
+        {
+            var tmpInput = treeDevicesInput.SelectedNode;
+            var tmpOutput = treeDevicesOutput.SelectedNode;
+            if (selectedBackend != null)
+            {
+                treeDevicesInput.Nodes.Clear();
+                treeDevicesInput.Nodes.AddRange(GetDevicesForBackend(selectedBackend, true));
+                for (int i = 0; i < treeDevicesInput.Nodes.Count; i++)
+                {
+                    if (treeDevicesInput?.Nodes[i].Text == tmpInput?.Text)
+                    {
+                        treeDevicesInput.SelectedNode = treeDevicesInput.Nodes[i];
+                        break;
+                    }
+                }
+
+                treeDevicesOutput.Nodes.Clear();
+                treeDevicesOutput.Nodes.AddRange(GetDevicesForBackend(selectedBackend, false));
+                for (int i = 0; i < treeDevicesOutput.Nodes.Count; i++)
+                {
+                    if (treeDevicesOutput?.Nodes[i].Text == tmpOutput?.Text)
+                    {
+                        treeDevicesOutput.SelectedNode = treeDevicesOutput.Nodes[i];
+                        break;
+                    }
+                }
             }
         }
 
@@ -453,6 +481,17 @@ namespace FlexASIOGUI
                 flexGUIConfig.output.wasapiExclusiveMode = wasapiExclusiveOutput.Checked;
             }
             GenerateOutput();
+        }
+
+        private void btRefreshDevices_Click(object sender, EventArgs e)
+        {
+            var selectedBackend = comboBackend.SelectedItem as string;
+            RefreshDevices(selectedBackend);
+        }
+
+        private void linkLabelDocs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new ProcessStartInfo(docUrl) { UseShellExecute = true });
         }
     }
 }
