@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Nett" Version="0.15.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

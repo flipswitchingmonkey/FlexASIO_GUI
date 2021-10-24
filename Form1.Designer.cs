@@ -31,6 +31,7 @@
             this.treeDevicesInput = new System.Windows.Forms.TreeView();
             this.treeDevicesOutput = new System.Windows.Forms.TreeView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btRefreshDevices = new System.Windows.Forms.Button();
             this.btSaveAs = new System.Windows.Forms.Button();
             this.btClipboard = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -65,6 +66,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.checkBoxSetBufferSize = new System.Windows.Forms.CheckBox();
             this.numericBufferSize = new System.Windows.Forms.NumericUpDown();
+            this.linkLabelDocs = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericLatencyOutput)).BeginInit();
@@ -84,9 +86,9 @@
             this.treeDevicesInput.CheckBoxes = true;
             this.treeDevicesInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeDevicesInput.HideSelection = false;
-            this.treeDevicesInput.Location = new System.Drawing.Point(93, 53);
+            this.treeDevicesInput.Location = new System.Drawing.Point(93, 58);
             this.treeDevicesInput.Name = "treeDevicesInput";
-            this.treeDevicesInput.Size = new System.Drawing.Size(236, 358);
+            this.treeDevicesInput.Size = new System.Drawing.Size(236, 333);
             this.treeDevicesInput.TabIndex = 1;
             this.treeDevicesInput.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeDevicesInput_BeforeCheck);
             this.treeDevicesInput.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeDevicesInput_AfterCheck);
@@ -98,9 +100,9 @@
             this.treeDevicesOutput.CheckBoxes = true;
             this.treeDevicesOutput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeDevicesOutput.HideSelection = false;
-            this.treeDevicesOutput.Location = new System.Drawing.Point(335, 53);
+            this.treeDevicesOutput.Location = new System.Drawing.Point(335, 58);
             this.treeDevicesOutput.Name = "treeDevicesOutput";
-            this.treeDevicesOutput.Size = new System.Drawing.Size(236, 358);
+            this.treeDevicesOutput.Size = new System.Drawing.Size(236, 333);
             this.treeDevicesOutput.TabIndex = 1;
             this.treeDevicesOutput.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeDevicesOutput_BeforeCheck);
             this.treeDevicesOutput.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeDevicesOutput_AfterCheck);
@@ -115,6 +117,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 301F));
+            this.tableLayoutPanel1.Controls.Add(this.btRefreshDevices, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.btSaveAs, 3, 5);
             this.tableLayoutPanel1.Controls.Add(this.btClipboard, 3, 3);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
@@ -135,14 +138,15 @@
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.numericChannelsInput, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.numericChannelsOutput, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this.statusStrip1, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.statusStrip1, 0, 7);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.linkLabelDocs, 3, 6);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 7;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -152,10 +156,23 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(875, 534);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
+            // btRefreshDevices
+            // 
+            this.btRefreshDevices.AccessibleName = "Refresh Devices";
+            this.btRefreshDevices.AutoSize = true;
+            this.btRefreshDevices.Location = new System.Drawing.Point(577, 3);
+            this.btRefreshDevices.MinimumSize = new System.Drawing.Size(0, 23);
+            this.btRefreshDevices.Name = "btRefreshDevices";
+            this.btRefreshDevices.Size = new System.Drawing.Size(117, 24);
+            this.btRefreshDevices.TabIndex = 19;
+            this.btRefreshDevices.Text = "Refresh Devices";
+            this.btRefreshDevices.UseVisualStyleBackColor = true;
+            this.btRefreshDevices.Click += new System.EventHandler(this.btRefreshDevices_Click);
+            // 
             // btSaveAs
             // 
             this.btSaveAs.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btSaveAs.Location = new System.Drawing.Point(797, 477);
+            this.btSaveAs.Location = new System.Drawing.Point(797, 457);
             this.btSaveAs.Name = "btSaveAs";
             this.btSaveAs.Size = new System.Drawing.Size(75, 24);
             this.btSaveAs.TabIndex = 11;
@@ -166,7 +183,7 @@
             // btClipboard
             // 
             this.btClipboard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btClipboard.Location = new System.Drawing.Point(577, 417);
+            this.btClipboard.Location = new System.Drawing.Point(577, 397);
             this.btClipboard.Name = "btClipboard";
             this.btClipboard.Size = new System.Drawing.Size(295, 24);
             this.btClipboard.TabIndex = 0;
@@ -187,7 +204,7 @@
             // btSaveToProfile
             // 
             this.btSaveToProfile.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btSaveToProfile.Location = new System.Drawing.Point(577, 447);
+            this.btSaveToProfile.Location = new System.Drawing.Point(577, 427);
             this.btSaveToProfile.Name = "btSaveToProfile";
             this.btSaveToProfile.Size = new System.Drawing.Size(295, 24);
             this.btSaveToProfile.TabIndex = 1;
@@ -211,7 +228,7 @@
             this.flowLayoutPanel4.Controls.Add(this.checkBoxSetOutputLatency);
             this.flowLayoutPanel4.Controls.Add(this.numericLatencyOutput);
             this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(335, 417);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(335, 397);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(236, 24);
             this.flowLayoutPanel4.TabIndex = 11;
@@ -241,7 +258,7 @@
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 451);
+            this.label7.Location = new System.Drawing.Point(3, 431);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(50, 15);
             this.label7.TabIndex = 2;
@@ -253,7 +270,7 @@
             this.flowLayoutPanel2.Controls.Add(this.wasapiExclusiveInput);
             this.flowLayoutPanel2.Controls.Add(this.wasapiAutoConvertInput);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(93, 447);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(93, 427);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(236, 24);
             this.flowLayoutPanel2.TabIndex = 11;
@@ -299,7 +316,7 @@
             this.flowLayoutPanel3.Controls.Add(this.wasapiExclusiveOutput);
             this.flowLayoutPanel3.Controls.Add(this.wasapiAutoConvertOutput);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(335, 447);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(335, 427);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(236, 24);
             this.flowLayoutPanel3.TabIndex = 12;
@@ -342,18 +359,18 @@
             // configOutput
             // 
             this.configOutput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.configOutput.Location = new System.Drawing.Point(577, 53);
+            this.configOutput.Location = new System.Drawing.Point(577, 58);
             this.configOutput.Multiline = true;
             this.configOutput.Name = "configOutput";
             this.configOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.configOutput.Size = new System.Drawing.Size(295, 358);
+            this.configOutput.Size = new System.Drawing.Size(295, 333);
             this.configOutput.TabIndex = 9;
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(93, 32);
+            this.label1.Location = new System.Drawing.Point(93, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 15);
             this.label1.TabIndex = 0;
@@ -363,7 +380,7 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(335, 32);
+            this.label2.Location = new System.Drawing.Point(335, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 15);
             this.label2.TabIndex = 0;
@@ -374,7 +391,7 @@
             this.flowLayoutPanel5.Controls.Add(this.checkBoxSetInputLatency);
             this.flowLayoutPanel5.Controls.Add(this.numericLatencyInput);
             this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel5.Location = new System.Drawing.Point(93, 417);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(93, 397);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
             this.flowLayoutPanel5.Size = new System.Drawing.Size(236, 24);
             this.flowLayoutPanel5.TabIndex = 11;
@@ -404,7 +421,7 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 421);
+            this.label4.Location = new System.Drawing.Point(3, 401);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 15);
             this.label4.TabIndex = 2;
@@ -415,7 +432,7 @@
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label9.Location = new System.Drawing.Point(827, 32);
+            this.label9.Location = new System.Drawing.Point(827, 35);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(45, 15);
             this.label9.TabIndex = 13;
@@ -425,7 +442,7 @@
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 481);
+            this.label5.Location = new System.Drawing.Point(3, 461);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(56, 15);
             this.label5.TabIndex = 14;
@@ -434,7 +451,7 @@
             // numericChannelsInput
             // 
             this.numericChannelsInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericChannelsInput.Location = new System.Drawing.Point(93, 477);
+            this.numericChannelsInput.Location = new System.Drawing.Point(93, 457);
             this.numericChannelsInput.Name = "numericChannelsInput";
             this.numericChannelsInput.Size = new System.Drawing.Size(236, 23);
             this.numericChannelsInput.TabIndex = 15;
@@ -443,7 +460,7 @@
             // numericChannelsOutput
             // 
             this.numericChannelsOutput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericChannelsOutput.Location = new System.Drawing.Point(335, 477);
+            this.numericChannelsOutput.Location = new System.Drawing.Point(335, 457);
             this.numericChannelsOutput.Name = "numericChannelsOutput";
             this.numericChannelsOutput.Size = new System.Drawing.Size(236, 23);
             this.numericChannelsOutput.TabIndex = 16;
@@ -454,16 +471,16 @@
             this.tableLayoutPanel1.SetColumnSpan(this.statusStrip1, 4);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 512);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 514);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(875, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(875, 20);
             this.statusStrip1.TabIndex = 17;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 15);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // flowLayoutPanel1
@@ -507,6 +524,19 @@
             this.numericBufferSize.Size = new System.Drawing.Size(90, 23);
             this.numericBufferSize.TabIndex = 5;
             this.numericBufferSize.ValueChanged += new System.EventHandler(this.numericBufferSize_ValueChanged);
+            // 
+            // linkLabelDocs
+            // 
+            this.linkLabelDocs.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.linkLabelDocs.AutoSize = true;
+            this.linkLabelDocs.Location = new System.Drawing.Point(655, 491);
+            this.linkLabelDocs.Name = "linkLabelDocs";
+            this.linkLabelDocs.Size = new System.Drawing.Size(217, 15);
+            this.linkLabelDocs.TabIndex = 20;
+            this.linkLabelDocs.TabStop = true;
+            this.linkLabelDocs.Text = "FlexASIO Configuration Documentation";
+            this.linkLabelDocs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkLabelDocs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelDocs_LinkClicked);
             // 
             // Form1
             // 
@@ -579,6 +609,8 @@
         private System.Windows.Forms.CheckBox checkBoxSetBufferSize;
         private System.Windows.Forms.CheckBox checkBoxWasapiInputSet;
         private System.Windows.Forms.CheckBox checkBoxWasapiOutputSet;
+        private System.Windows.Forms.Button btRefreshDevices;
+        private System.Windows.Forms.LinkLabel linkLabelDocs;
     }
 }
 

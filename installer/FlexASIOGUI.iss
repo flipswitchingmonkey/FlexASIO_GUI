@@ -1,5 +1,5 @@
 #define MyAppName "FlexASIO GUI"
-#define MyAppVersion "0.3"
+#define MyAppVersion "0.31"
 #define MyAppPublisher "https://github.com/flipswitchingmonkey/FlexASIO_GUI"
 #define MyAppURL ""
 #define MyAppExeName "FlexASIOGUI.exe"
