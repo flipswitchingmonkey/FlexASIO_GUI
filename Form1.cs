@@ -22,7 +22,7 @@ namespace FlexASIOGUI
         private bool InitDone = false;
         private string TOMLPath;
         private FlexGUIConfig flexGUIConfig;
-        private System.Text.Encoding enc1252;
+        private Encoding legacyEncoding;
         private string flexasioGuiVersion = "0.31";
         private string flexasioVersion = "1.8";
         private string tomlName = "FlexASIO.toml";
@@ -30,6 +30,8 @@ namespace FlexASIOGUI
 
         [DllImport(@"C:\Program Files\FlexASIO\x64\FlexASIO.dll")]
         public static extern int Initialize(string PathName, bool TestMode);
+        [DllImport(@"kernel32.dll")]
+        public static extern uint GetACP();
 
         public Form1()
         {
@@ -40,7 +42,10 @@ namespace FlexASIOGUI
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            enc1252 = Encoding.GetEncoding(1252);
+
+            // get the value of the "Language for non-Unicode programs" setting (1252 for English)
+            // note: in Win11 this could be UTF-8 already, since it's natively supported
+            legacyEncoding = Encoding.GetEncoding((int)GetACP());
 
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
             CultureInfo.DefaultThreadCurrentCulture = customCulture;
@@ -110,11 +115,12 @@ namespace FlexASIOGUI
             GenerateOutput();
         }
 
-        private string W1252fromUTF(string s)
+        private string DescrambleUTF8(string s)
         {
-            byte[] bytes = Encoding.Default.GetBytes(s);
-            byte[] output = Encoding.Convert(Encoding.UTF8, enc1252, bytes);
-            return Encoding.UTF8.GetString(output);
+            // portaudio incorrectly returns UTF-8 strings as if they were ANSI (CP1252 for most Latin systems, CP1251 for Cyrillic, etc...)
+            // this line fixes the issue by reading the input as CP* and parsing it as UTF-8
+            var bytes = legacyEncoding.GetBytes(s);
+            return Encoding.UTF8.GetString(bytes);
         }
 
         private TreeNode[] GetDevicesForBackend(string Backend, bool Input)
@@ -134,14 +140,14 @@ namespace FlexASIOGUI
                 {
                     if (deviceInfo.maxInputChannels > 0)
                     {
-                        treeNodes.Add(new TreeNode(W1252fromUTF(deviceInfo.name)));
+                        treeNodes.Add(new TreeNode(DescrambleUTF8(deviceInfo.name)));
                     }
                 }
                 else
                 {
                     if (deviceInfo.maxOutputChannels > 0)
                     {
-                        treeNodes.Add(new TreeNode(W1252fromUTF(deviceInfo.name)));
+                        treeNodes.Add(new TreeNode(DescrambleUTF8(deviceInfo.name)));
                     }
                 }
             }
