@@ -23,7 +23,7 @@ namespace FlexASIOGUI
         private string TOMLPath;
         private FlexGUIConfig flexGUIConfig;
         private Encoding legacyEncoding;
-        private string flexasioGuiVersion = "0.31";
+        private string flexasioGuiVersion = "0.32";
         private string flexasioVersion = "1.8";
         private string tomlName = "FlexASIO.toml";
         private string docUrl = "https://github.com/dechamps/FlexASIO/blob/master/CONFIGURATION.md";
