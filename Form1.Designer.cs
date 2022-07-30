@@ -31,8 +31,10 @@
             this.treeDevicesInput = new System.Windows.Forms.TreeView();
             this.treeDevicesOutput = new System.Windows.Forms.TreeView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btRefreshDevices = new System.Windows.Forms.Button();
+            this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.btSaveAs = new System.Windows.Forms.Button();
+            this.btLoadFrom = new System.Windows.Forms.Button();
+            this.btRefreshDevices = new System.Windows.Forms.Button();
             this.btClipboard = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.btSaveToProfile = new System.Windows.Forms.Button();
@@ -68,6 +70,7 @@
             this.numericBufferSize = new System.Windows.Forms.NumericUpDown();
             this.linkLabelDocs = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel6.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericLatencyOutput)).BeginInit();
             this.flowLayoutPanel2.SuspendLayout();
@@ -90,9 +93,7 @@
             this.treeDevicesInput.Name = "treeDevicesInput";
             this.treeDevicesInput.Size = new System.Drawing.Size(236, 333);
             this.treeDevicesInput.TabIndex = 1;
-            this.treeDevicesInput.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeDevicesInput_BeforeCheck);
             this.treeDevicesInput.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeDevicesInput_AfterCheck);
-            this.treeDevicesInput.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeDevicesInput_BeforeSelect);
             this.treeDevicesInput.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeDevicesInput_AfterSelect);
             // 
             // treeDevicesOutput
@@ -104,9 +105,7 @@
             this.treeDevicesOutput.Name = "treeDevicesOutput";
             this.treeDevicesOutput.Size = new System.Drawing.Size(236, 333);
             this.treeDevicesOutput.TabIndex = 1;
-            this.treeDevicesOutput.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeDevicesOutput_BeforeCheck);
             this.treeDevicesOutput.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeDevicesOutput_AfterCheck);
-            this.treeDevicesOutput.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeDevicesOutput_BeforeSelect);
             this.treeDevicesOutput.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeDevicesOutput_AfterSelect);
             // 
             // tableLayoutPanel1
@@ -117,8 +116,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 301F));
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel6, 3, 5);
             this.tableLayoutPanel1.Controls.Add(this.btRefreshDevices, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btSaveAs, 3, 5);
             this.tableLayoutPanel1.Controls.Add(this.btClipboard, 3, 3);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.treeDevicesOutput, 2, 2);
@@ -144,7 +143,7 @@
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -153,8 +152,46 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(875, 534);
             this.tableLayoutPanel1.TabIndex = 4;
+            // 
+            // flowLayoutPanel6
+            // 
+            this.flowLayoutPanel6.Controls.Add(this.btSaveAs);
+            this.flowLayoutPanel6.Controls.Add(this.btLoadFrom);
+            this.flowLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel6.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(577, 457);
+            this.flowLayoutPanel6.Name = "flowLayoutPanel6";
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(295, 24);
+            this.flowLayoutPanel6.TabIndex = 21;
+            // 
+            // btSaveAs
+            // 
+            this.btSaveAs.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btSaveAs.Location = new System.Drawing.Point(220, 0);
+            this.btSaveAs.Margin = new System.Windows.Forms.Padding(0);
+            this.btSaveAs.MinimumSize = new System.Drawing.Size(50, 24);
+            this.btSaveAs.Name = "btSaveAs";
+            this.btSaveAs.Size = new System.Drawing.Size(75, 24);
+            this.btSaveAs.TabIndex = 0;
+            this.btSaveAs.Text = "Save as";
+            this.btSaveAs.UseVisualStyleBackColor = true;
+            this.btSaveAs.Click += new System.EventHandler(this.btSaveAs_Click);
+            // 
+            // btLoadFrom
+            // 
+            this.btLoadFrom.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btLoadFrom.Location = new System.Drawing.Point(145, 0);
+            this.btLoadFrom.Margin = new System.Windows.Forms.Padding(0);
+            this.btLoadFrom.MinimumSize = new System.Drawing.Size(50, 24);
+            this.btLoadFrom.Name = "btLoadFrom";
+            this.btLoadFrom.Size = new System.Drawing.Size(75, 24);
+            this.btLoadFrom.TabIndex = 1;
+            this.btLoadFrom.Text = "Load from";
+            this.btLoadFrom.UseVisualStyleBackColor = true;
+            this.btLoadFrom.Click += new System.EventHandler(this.btLoadFrom_Click);
             // 
             // btRefreshDevices
             // 
@@ -163,22 +200,11 @@
             this.btRefreshDevices.Location = new System.Drawing.Point(577, 3);
             this.btRefreshDevices.MinimumSize = new System.Drawing.Size(0, 23);
             this.btRefreshDevices.Name = "btRefreshDevices";
-            this.btRefreshDevices.Size = new System.Drawing.Size(117, 24);
+            this.btRefreshDevices.Size = new System.Drawing.Size(99, 24);
             this.btRefreshDevices.TabIndex = 19;
             this.btRefreshDevices.Text = "Refresh Devices";
             this.btRefreshDevices.UseVisualStyleBackColor = true;
             this.btRefreshDevices.Click += new System.EventHandler(this.btRefreshDevices_Click);
-            // 
-            // btSaveAs
-            // 
-            this.btSaveAs.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btSaveAs.Location = new System.Drawing.Point(797, 457);
-            this.btSaveAs.Name = "btSaveAs";
-            this.btSaveAs.Size = new System.Drawing.Size(75, 24);
-            this.btSaveAs.TabIndex = 11;
-            this.btSaveAs.Text = "Save as";
-            this.btSaveAs.UseVisualStyleBackColor = true;
-            this.btSaveAs.Click += new System.EventHandler(this.btSaveAs_Click);
             // 
             // btClipboard
             // 
@@ -432,11 +458,11 @@
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label9.Location = new System.Drawing.Point(827, 35);
+            this.label9.Location = new System.Drawing.Point(783, 35);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(45, 15);
+            this.label9.Size = new System.Drawing.Size(89, 15);
             this.label9.TabIndex = 13;
-            this.label9.Text = "Output";
+            this.label9.Text = "Output Preview";
             // 
             // label5
             // 
@@ -549,6 +575,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel6.ResumeLayout(false);
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericLatencyOutput)).EndInit();
@@ -611,6 +638,8 @@
         private System.Windows.Forms.CheckBox checkBoxWasapiOutputSet;
         private System.Windows.Forms.Button btRefreshDevices;
         private System.Windows.Forms.LinkLabel linkLabelDocs;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
+        private System.Windows.Forms.Button btLoadFrom;
     }
 }
 

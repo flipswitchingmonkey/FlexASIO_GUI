@@ -2,7 +2,7 @@ This is a small GUI to make the configuration of https://github.com/dechamps/Fle
 
 It should pick up your existing $Usersprofile/FlexASIO.toml file and read the basic parameters. Not all of them have been implemented yet...
 
-Disclaimer: this was written in one late night, so expect 4am code quality ;)
+To run, please make sure you have [.NET Desktop Runtime 6.x](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) installed.
 
 v0.3 adds a registry key with the install path to HKEY_LOCAL_MACHINE\SOFTWARE\Fabrikat\FlexASIOGUI\Install\Installpath
 
