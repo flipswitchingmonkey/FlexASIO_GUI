@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Commons.Media.PortAudio;
 using System.Diagnostics;
@@ -23,8 +20,8 @@ namespace FlexASIOGUI
         private string TOMLPath;
         private FlexGUIConfig flexGUIConfig;
         private Encoding legacyEncoding;
-        private string flexasioGuiVersion = "0.33";
-        private string flexasioVersion = "1.8";
+        private string flexasioGuiVersion = "0.34";
+        private string flexasioVersion = "1.9";
         private string tomlName = "FlexASIO.toml";
         private string docUrl = "https://github.com/dechamps/FlexASIO/blob/master/CONFIGURATION.md";
 
@@ -52,11 +49,20 @@ namespace FlexASIOGUI
             CultureInfo.DefaultThreadCurrentUICulture = customCulture;
 
             TOMLPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\{tomlName}";
+            
+            this.LoadFlexASIOConfig(TOMLPath);
 
+            InitDone = true;
+            SetStatusMessage($"FlexASIO GUI for FlexASIO {flexasioVersion} started ({Configuration.VersionString})");
+            GenerateOutput();
+        }
+
+        private FlexGUIConfig LoadFlexASIOConfig(string tomlPath)
+        {
             flexGUIConfig = new FlexGUIConfig();
-            if (File.Exists(TOMLPath))
+            if (File.Exists(tomlPath))
             {
-                flexGUIConfig = Toml.ReadFile<FlexGUIConfig>(TOMLPath);
+                flexGUIConfig = Toml.ReadFile<FlexGUIConfig>(tomlPath);
             }
 
             numericBufferSize.Maximum = 8192;
@@ -65,7 +71,7 @@ namespace FlexASIOGUI
             numericLatencyInput.Increment = 0.1m;
             numericLatencyOutput.Increment = 0.1m;
 
-            for (var i=0; i<Configuration.HostApiCount; i++)
+            for (var i = 0; i < Configuration.HostApiCount; i++)
             {
                 comboBackend.Items.Add(Configuration.GetHostApiInfo(i).name);
             }
@@ -82,7 +88,7 @@ namespace FlexASIOGUI
             if (flexGUIConfig.bufferSizeSamples != null)
                 numericBufferSize.Value = (Int64)flexGUIConfig.bufferSizeSamples;
             checkBoxSetBufferSize.Checked = numericBufferSize.Enabled = flexGUIConfig.bufferSizeSamples != null;
-            
+
             treeDevicesInput.SelectedNode = treeDevicesInput.Nodes.Cast<TreeNode>().FirstOrDefault(x => x.Text == (flexGUIConfig.input.device == "" ? "(None)" : flexGUIConfig.input.device));
             treeDevicesOutput.SelectedNode = treeDevicesOutput.Nodes.Cast<TreeNode>().FirstOrDefault(x => x.Text == (flexGUIConfig.output.device == "" ? "(None)" : flexGUIConfig.output.device));
 
@@ -109,10 +115,7 @@ namespace FlexASIOGUI
             wasapiAutoConvertInput.Checked = flexGUIConfig.input.wasapiAutoConvert ?? false;
             wasapiAutoConvertOutput.Enabled = flexGUIConfig.output.wasapiAutoConvert != null;
             wasapiAutoConvertOutput.Checked = flexGUIConfig.output.wasapiAutoConvert ?? false;
-
-            InitDone = true;
-            SetStatusMessage($"FlexASIO GUI for FlexASIO {flexasioVersion} started ({Configuration.VersionString})");
-            GenerateOutput();
+            return flexGUIConfig;
         }
 
         private string DescrambleUTF8(string s)
@@ -256,64 +259,67 @@ namespace FlexASIOGUI
             SetStatusMessage($"Configuration written to {saveFileDialog.FileName}");
         }
 
-        private void treeDevicesInput_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+         private void treeDevicesInput_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            var o = sender as TreeView;
-            if (o.SelectedNode != null)
+            if (sender == null) return;
+            else
             {
-                o.SelectedNode.Checked = false;
-            }
-        }
-
-        private void treeDevicesOutput_BeforeSelect(object sender, TreeViewCancelEventArgs e)
-        {
-            var o = sender as TreeView;
-            if (o.SelectedNode != null)
-            {
-                o.SelectedNode.Checked = false;
-            }
-        }
-
-        private void treeDevicesInput_BeforeCheck(object sender, TreeViewCancelEventArgs e)
-        {
-            if (e.Node.IsSelected == false)
-            {
-                e.Cancel = true;
-            }
-        }
-
-        private void treeDevicesOutput_BeforeCheck(object sender, TreeViewCancelEventArgs e)
-        {
-            if (e.Node.IsSelected == false)
-            {
-                e.Cancel = true;
-            }
-        }
-
-        private void treeDevicesInput_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            var o = sender as TreeView;
-            if (o == null) return;
-            if (o.SelectedNode != null)
-            {
-                o.SelectedNode.Checked = true;
-                flexGUIConfig.input.device = o.SelectedNode.Text == "(None)" ? "" : o.SelectedNode.Text;
-                GenerateOutput();
+                e.Node.Checked = true;
+                this.onTreeViewSelected(eventArgs: e, forInput: true);
             }
         }
 
         private void treeDevicesOutput_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            var o = sender as TreeView;
-            if (o == null) return;
-            if (o.SelectedNode != null)
+            if (sender == null) return;
+            else
             {
-                o.SelectedNode.Checked = true;
-                flexGUIConfig.output.device = o.SelectedNode.Text == "(None)" ? "" : o.SelectedNode.Text;
-                GenerateOutput();
+                e.Node.Checked = true;
+                this.onTreeViewSelected(eventArgs: e, forInput: false);
             }
         }
 
+        private void treeDevicesOutput_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            if (sender == null) return;
+            else
+            {
+                this.onTreeViewSelected(eventArgs: e, forInput: false);
+            }
+        }
+
+        private void treeDevicesInput_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            if (sender == null) return;
+            else
+            {
+                this.onTreeViewSelected(eventArgs: e, forInput: true);
+            }
+        }
+
+        private void unCheckAllOthers(TreeNode treeNode)
+        {
+            foreach (TreeNode node in treeNode.TreeView.Nodes)
+            {
+                if (node != treeNode)
+                {
+                    node.Checked = false;
+                }
+            }
+        }
+
+        private void onTreeViewSelected(TreeViewEventArgs eventArgs, bool forInput)
+        {
+            if (eventArgs.Node.Checked == true)
+            {
+                if (forInput == true)
+                    flexGUIConfig.input.device = eventArgs.Node.Text == "(None)" ? "" : eventArgs.Node.Text;
+                else
+                    flexGUIConfig.output.device = eventArgs.Node.Text == "(None)" ? "" : eventArgs.Node.Text;
+                this.unCheckAllOthers(eventArgs.Node);
+                GenerateOutput();
+            }
+        }
 
         private void numericChannelsOutput_ValueChanged(object sender, EventArgs e)
         {
@@ -393,15 +399,7 @@ namespace FlexASIOGUI
             GenerateOutput();
         }
 
-        private void treeDevicesOutput_AfterCheck(object sender, TreeViewEventArgs e)
-        {
-        }
-
-        private void treeDevicesInput_AfterCheck(object sender, TreeViewEventArgs e)
-        {
-
-        }
-
+ 
         private void checkBoxSetInputLatency_CheckedChanged(object sender, EventArgs e)
         {
             var o = sender as CheckBox;
@@ -498,6 +496,32 @@ namespace FlexASIOGUI
         private void linkLabelDocs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(new ProcessStartInfo(docUrl) { UseShellExecute = true });
+        }
+
+        private void btLoadFrom_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            openFileDialog.FileName = tomlName;
+            openFileDialog.Filter = "FlexASIO Config (*.toml)|*.toml";
+            openFileDialog.CheckFileExists = true;
+            var ret = openFileDialog.ShowDialog();
+            if (ret == DialogResult.OK)
+            {
+                try
+                {
+                    this.LoadFlexASIOConfig(openFileDialog.FileName);
+                }
+                catch (Exception)
+                {
+                    SetStatusMessage($"Error loading from {openFileDialog.FileName}");
+                    this.LoadFlexASIOConfig(TOMLPath);
+                    return;
+                }
+                
+            }
+            SetStatusMessage($"Configuration loaded from {openFileDialog.FileName}");
         }
     }
 }
