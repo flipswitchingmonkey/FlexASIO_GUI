@@ -51,8 +51,6 @@ namespace FlexASIOGUI
 
             TOMLPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\{tomlName}";
             
-            this.LoadFlexASIOConfig(TOMLPath);
-
             tomlModelOptions.ConvertPropertyName = (string name) => name;
             this.LoadFlexASIOConfig(TOMLPath);
 
