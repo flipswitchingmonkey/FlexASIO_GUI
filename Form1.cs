@@ -8,7 +8,7 @@ using Commons.Media.PortAudio;
 using System.Diagnostics;
 using System.IO;
 using System.Globalization;
-using Nett;
+using Tomlyn;
 using System.Runtime.InteropServices;
 
 namespace FlexASIOGUI
@@ -20,10 +20,11 @@ namespace FlexASIOGUI
         private string TOMLPath;
         private FlexGUIConfig flexGUIConfig;
         private Encoding legacyEncoding;
-        private string flexasioGuiVersion = "0.34";
-        private string flexasioVersion = "1.9";
-        private string tomlName = "FlexASIO.toml";
-        private string docUrl = "https://github.com/dechamps/FlexASIO/blob/master/CONFIGURATION.md";
+        private readonly string flexasioGuiVersion = "0.35";
+        private readonly string flexasioVersion = "1.9";
+        private readonly string tomlName = "FlexASIO.toml";
+        private readonly string docUrl = "https://github.com/dechamps/FlexASIO/blob/master/CONFIGURATION.md";
+        TomlModelOptions tomlModelOptions = new();
 
         [DllImport(@"C:\Program Files\FlexASIO\x64\FlexASIO.dll")]
         public static extern int Initialize(string PathName, bool TestMode);
@@ -49,7 +50,8 @@ namespace FlexASIOGUI
             CultureInfo.DefaultThreadCurrentUICulture = customCulture;
 
             TOMLPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\{tomlName}";
-            
+
+            tomlModelOptions.ConvertPropertyName = (string name) => name;
             this.LoadFlexASIOConfig(TOMLPath);
 
             InitDone = true;
@@ -62,7 +64,8 @@ namespace FlexASIOGUI
             flexGUIConfig = new FlexGUIConfig();
             if (File.Exists(tomlPath))
             {
-                flexGUIConfig = Toml.ReadFile<FlexGUIConfig>(tomlPath);
+                var tomlPathAsText = File.ReadAllText(tomlPath);
+                flexGUIConfig = Toml.ToModel<FlexGUIConfig>(tomlPathAsText, options: tomlModelOptions);
             }
 
             numericBufferSize.Maximum = 8192;
@@ -224,7 +227,7 @@ namespace FlexASIOGUI
             }
 
             configOutput.Clear();
-            configOutput.Text = Toml.WriteString(flexGUIConfig);
+            configOutput.Text = Toml.FromModel(flexGUIConfig, options: tomlModelOptions);
         }
 
 
